@@ -305,16 +305,6 @@ require('lazy').setup({
       },
     },
   },
-  -- My custom plugins
-  -- TODO: scalable solution for plugins
-  require 'custom.plugins.noice',
-  require 'custom.plugins.snacks',
-  require 'custom.plugins.nvim-cmp',
-  require 'custom.plugins.catppuccin',
-  require 'custom.plugins.omni',
-  require 'custom.plugins.onedark',
-  require 'custom.plugins.material-nvim',
-  require 'custom.plugins.bufferline',
   {
     'm4xshen/autoclose.nvim',
   },
@@ -1051,7 +1041,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -1096,29 +1086,29 @@ require('lspconfig').ruff.setup {
 } -- vim: ts=2 sts=2 sw=2 et
 
 vim.wo.relativenumber = true
-vim.opt.termguicolors = true
+--vim.opt.termguicolors = true
 vim.opt.wrap = false
-require('bufferline').setup {}
+--require('bufferline').setup {}
 require('autoclose').setup()
 
-require('noice').setup {
-  lsp = {
-    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-    override = {
-      ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-      ['vim.lsp.util.stylize_markdown'] = true,
-      ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
-    },
-  },
-  -- you can enable a preset for easier configuration
-  presets = {
-    bottom_search = true, -- use a classic bottom cmdline for search
-    command_palette = true, -- position the cmdline and popupmenu together
-    long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = false, -- add a border to hover docs and signature help
-  },
-}
+-- require('noice').setup {
+--   lsp = {
+--     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+--     override = {
+--       ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+--       ['vim.lsp.util.stylize_markdown'] = true,
+--       ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
+--     },
+--   },
+--   -- you can enable a preset for easier configuration
+--   presets = {
+--     bottom_search = true, -- use a classic bottom cmdline for search
+--     command_palette = true, -- position the cmdline and popupmenu together
+--     long_message_to_split = true, -- long messages will be sent to a split
+--     inc_rename = false, -- enables an input dialog for inc-rename.nvim
+--     lsp_doc_border = false, -- add a border to hover docs and signature help
+--   },
+-- }
 
 -- vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory with Oil' })
 --
