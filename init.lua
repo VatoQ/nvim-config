@@ -306,9 +306,6 @@ require('lazy').setup({
     },
   },
   {
-    'm4xshen/autoclose.nvim',
-  },
-  {
     'akinsho/toggleterm.nvim',
     event = 'VeryLazy',
     version = '*',
@@ -509,16 +506,6 @@ require('lazy').setup({
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
       },
     },
-  },
-  {
-    'python-lsp/python-lsp-server',
-    config = function() end,
-    opts = {},
-  },
-  {
-    'astral-sh/ruff',
-    config = function() end,
-    opts = {},
   },
   {
     -- Main LSP Configuration
@@ -1070,6 +1057,7 @@ require('lazy').setup({
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
 
 require('lspconfig').ruff.setup {
   init_options = {
@@ -1083,33 +1071,8 @@ require('lspconfig').ruff.setup {
       },
     },
   },
-} -- vim: ts=2 sts=2 sw=2 et
+}
 
 vim.wo.relativenumber = true
---vim.opt.termguicolors = true
 vim.opt.wrap = false
---require('bufferline').setup {}
-require('autoclose').setup()
-
--- require('noice').setup {
---   lsp = {
---     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
---     override = {
---       ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
---       ['vim.lsp.util.stylize_markdown'] = true,
---       ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
---     },
---   },
---   -- you can enable a preset for easier configuration
---   presets = {
---     bottom_search = true, -- use a classic bottom cmdline for search
---     command_palette = true, -- position the cmdline and popupmenu together
---     long_message_to_split = true, -- long messages will be sent to a split
---     inc_rename = false, -- enables an input dialog for inc-rename.nvim
---     lsp_doc_border = false, -- add a border to hover docs and signature help
---   },
--- }
-
--- vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory with Oil' })
---
--- require('oil').setup()
+-- require('autoclose').setup()
