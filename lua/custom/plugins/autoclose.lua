@@ -2,7 +2,7 @@ return {
   'm4xshen/autoclose.nvim',
 
   config = function()
-    autoclose = require 'autoclose'
+    local autoclose = require 'autoclose'
 
     autoclose.setup {
       ---SETUP HERE
