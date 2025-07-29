@@ -305,6 +305,8 @@ require('lazy').setup({
       },
     },
   },
+  -- My custom plugins
+  -- TODO: scalable solution for plugins
   require 'custom.plugins.noice',
   require 'custom.plugins.snacks',
   require 'custom.plugins.nvim-cmp',
