@@ -95,7 +95,7 @@ return {
               self.esc_timer:stop()
               vim.cmd 'stopinsert'
             else
-              self.esc_timer:start(0, 0, function() end)
+              --self.esc_timer:start(0, 0, function() end)
               return '<esc>'
             end
           end,
@@ -106,10 +106,6 @@ return {
       },
     },
   },
-
-  -- 95
-  -- 57
-  -- 38
 
   keys = {
     -- Top Pickers & Explorer

@@ -1,3 +1,7 @@
+local basedpyright = require 'custom.plugins.basedpyright'
+--local lspconfig = require 'mason-lspconfig.init'
+--local preview = require 'blink.cmp.completion.accept.preview'
+-- local pylyzer = require 'custom.plugins.pylyzer'
 return {
   -- Main LSP Configuration
   'neovim/nvim-lspconfig',
@@ -14,6 +18,8 @@ return {
 
     -- Allows extra capabilities provided by blink.cmp
     'saghen/blink.cmp',
+
+    'mtshiba/pylyzer',
   },
   config = function()
     -- Brief aside: **What is LSP?**
@@ -149,6 +155,17 @@ return {
       end,
     })
 
+    -- lspconfig.ruff.setup {
+    --   on_attach = on_attach_ruff,
+    --   init_options = {
+    --     settings = {
+    --       format = {
+    --         preview = true,
+    --       },
+    --     },
+    --   },
+    -- }
+
     -- Diagnostic Config
     -- See :help vim.diagnostic.Opts
     vim.diagnostic.config {
@@ -196,7 +213,10 @@ return {
     local servers = {
       clangd = {},
       -- gopls = {},
-      pyright = {},
+      -- pyright = {
+      --   mason = false,
+      -- },
+      -- pylyzer = {},
       -- rust_analyzer = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
@@ -205,7 +225,25 @@ return {
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
       -- ts_ls = {},
-      --
+      basedpyright = {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = 'strict',
+              reportUnnecessaryIsInstance = true,
+              reportUnnecessaryCast = true,
+              reportUnnecessaryComparison = true,
+              reportAssertAlwaysTrue = true,
+              reportUndefinedVariable = true,
+              reportUnboundVariable = true,
+              reportUnhashable = true,
+              reportUnreachable = true,
+              reportInvalidCast = true,
+              --strictGenericNarrowing = false,
+            },
+          },
+        },
+      },
 
       lua_ls = {
         -- cmd = { ... },
