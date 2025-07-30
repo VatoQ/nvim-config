@@ -239,6 +239,7 @@ return {
               reportUnhashable = true,
               reportUnreachable = true,
               reportInvalidCast = true,
+              enableTypeIgnoreComments = true,
               --strictGenericNarrowing = false,
             },
           },
