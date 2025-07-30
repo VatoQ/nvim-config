@@ -30,13 +30,87 @@ return {
       notification = {
         -- wo = { wrap = true } -- Wrap notifications
       },
-      border = 'rounded',
+      blame_line = {
+        width = 0.6,
+        height = 0.6,
+        border = 'rounded',
+        title = ' Git Blame ',
+        title_pos = 'center',
+        ft = 'git',
+      },
+
+      snacks_image = {
+        relative = 'cursor',
+        border = 'rounded',
+        focusable = true,
+        backdrop = true,
+        row = 1,
+        col = 1,
+        -- width/height are automatically set by the image size unless specified below
+      },
+
+      split = {
+        position = 'bottom',
+        height = 0.4,
+        width = 0.4,
+      },
     },
 
     image = {
       enabled = true,
     },
+    terminal = {
+      win = {
+        position = 'float',
+        border = 'rounded',
+        height = 0.55,
+        width = 0.75,
+        -- zindex = 50,
+        row = -1,
+        -- col = -1,
+        backdrop = false,
+      },
+      bo = {
+        filetype = 'snacks_terminal',
+      },
+      wo = {},
+      keys = {
+        q = 'hide',
+        gf = function(self)
+          local f = vim.fn.findfile(vim.fn.expand '<cfile>', '**')
+          if f == '' then
+            Snacks.notify.warn 'No file under cursor'
+          else
+            self:hide()
+            vim.schedule(function()
+              vim.cmd('e ' .. f)
+            end)
+          end
+        end,
+        term_normal = {
+          '<esc>',
+          function(self)
+            self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
+            if self.esc_timer:is_active() then
+              self.esc_timer:stop()
+              vim.cmd 'stopinsert'
+            else
+              self.esc_timer:start(0, 0, function() end)
+              return '<esc>'
+            end
+          end,
+          mode = 't',
+          expr = true,
+          desc = 'Double escape to normal mode',
+        },
+      },
+    },
   },
+
+  -- 95
+  -- 57
+  -- 38
+
   keys = {
     -- Top Pickers & Explorer
     {
@@ -476,19 +550,19 @@ return {
       desc = 'Dismiss All Notifications',
     },
     {
-      '<c-/>',
+      '<c-t>',
       function()
         Snacks.terminal()
       end,
       desc = 'Toggle Terminal',
     },
-    {
-      '<c-_>',
-      function()
-        Snacks.terminal()
-      end,
-      desc = 'which_key_ignore',
-    },
+    --{
+    --  '<c-_>',
+    --  function()
+    --    Snacks.terminal()
+    --  end,
+    --  desc = 'which_key_ignore',
+    --},
     {
       ']]',
       function()
