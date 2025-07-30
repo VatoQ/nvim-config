@@ -358,19 +358,19 @@ require('lazy').setup({
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 
-require('lspconfig').ruff.setup {
-  init_options = {
-    settings = {
-      format = {
-        preview = true,
-      },
-      python = {
-        'ruff_organize_imports',
-        'ruff_format',
-      },
-    },
-  },
-}
+--require('lspconfig').ruff.setup {
+--  init_options = {
+--    settings = {
+--      format = {
+--        preview = true,
+--      },
+--      python = {
+--        'ruff_organize_imports',
+--        'ruff_format',
+--      },
+--    },
+--  },
+--}
 
 vim.wo.relativenumber = true
 vim.opt.wrap = false
