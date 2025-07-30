@@ -19,13 +19,15 @@ return { -- You can easily change to a different colorscheme.
     -- vim.cmd.colorscheme 'tokyonight-night'
     -- require('catppuccin').load()
     --
-    for k in pairs(package.loaded) do
-      if k:match '.*onedark.*' then
-        package.loaded[k] = nil
-      end
-    end
 
-    require('onedark').setup()
-    require('onedark').colorscheme()
+    -- for k in pairs(package.loaded) do
+    --   if k:match '.*onedark.*' then
+    --     package.loaded[k] = nil
+    --   end
+    -- end
+
+    -- require('onedark').setup()
+    -- require('onedark').colorscheme()
+    require('tokyonight').load { style = 'night' }
   end,
 }
