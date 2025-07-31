@@ -5,7 +5,7 @@ return {
   ---@type snacks.Config
   opts = {
     animate = {
-      duration = 20,
+      duration = 35,
       easing = 'linear',
       fps = 60,
     },
@@ -13,14 +13,71 @@ return {
     dashboard = {
       enabled = true,
     },
-    explorer = { enabled = true },
+    explorer = {
+      enabled = true,
+      finder = 'explorer',
+      layout = {
+        preset = 'sidebar',
+        preview = true,
+      },
+    },
     indent = { enabled = false },
     input = { enabled = true },
     notifier = {
       enabled = true,
       timeout = 3000,
     },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      sources = {
+        explorer = {
+          layout = {
+            ---- Floating large layout
+            -- layout = {
+            --   --position = 'left',
+            --   --width = 0.25,
+            --   box = 'horizontal',
+            --   width = 0.8,
+            --   height = 0.8,
+            --   {
+            --     box = 'vertical',
+            --     border = 'rounded',
+            --     title = '{title} {live} {flags}',
+            --     { win = 'input', height = 1, border = 'bottom' },
+            --     { win = 'list', border = 'none' },
+            --   },
+            --   { win = 'preview', title = '{preview}', border = 'rounded', width = 0.5 },
+            -- },
+            preview = 'main',
+            layout = {
+              backdrop = true,
+              width = 0.30,
+              min_width = 40,
+              height = 0,
+              position = 'left',
+              box = 'vertical',
+              {
+                win = 'input',
+                height = 1,
+                border = 'rounded',
+                title = '{title} {live} {flags}',
+                title_pos = 'right',
+              },
+              {
+                win = 'list',
+                border = 'rounded',
+              },
+              {
+                win = 'preview',
+                title = '{preview}',
+                height = 0.4,
+                border = 'top',
+              },
+            },
+          },
+        },
+      },
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },
