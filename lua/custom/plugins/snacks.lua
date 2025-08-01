@@ -51,7 +51,7 @@ return {
             preview = 'main',
             layout = {
               backdrop = true,
-              width = 0.30,
+              width = 0.25,
               min_width = 40,
               height = 0,
               position = 'left',
