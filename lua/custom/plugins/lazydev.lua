@@ -9,4 +9,12 @@ return {
       { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
     },
   },
+
+  config = function()
+    local lazydev = require 'lazydev'
+
+    lazydev.setup {
+      library = { 'nvim-dap-ui' },
+    }
+  end,
 }
