@@ -22,6 +22,7 @@ return {
 
   lsp = {
     progress = { enabled = true },
+    hover = { enabled = false },
   },
   override = {
     -- override the default lsp markdown formatter with Noice
