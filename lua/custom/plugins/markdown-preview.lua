@@ -7,13 +7,6 @@ return {
   end,
 
   config = function()
-    vim.keymap.set('n', '<leader>mp', '<Plut>MarkdownPreviewToggle', { desc = 'Toggle Markdown Preview' })
+    vim.keymap.set('n', '<leader>mp', '<cmd>MarkdownPreviewToggle<cr>', { desc = 'Toggle Markdown Preview' })
   end,
-
-  --keys = {
-  --  '<leader>mp',
-  --  '<cmd>MarkdownPreviewToggle<cr>',
-  --  ft = 'markdown',
-  --  desc = 'Toggle Markdown Preview',
-  --},
 }
