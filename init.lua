@@ -175,6 +175,13 @@ vim.opt.wrap = false
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 
+vim.fn.sign_define('DapBreakpoint', {
+  text = '🔴',
+  texthl = '',
+  linehl = '',
+  numhl = '',
+})
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 

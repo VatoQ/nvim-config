@@ -14,7 +14,7 @@ return {
           reveal = { 'close' },
         },
         indicator = {
-          icon = '', --'▎',   󰧚     
+          icon = '',
           style = 'icon',
         },
         seperator_style = 'thick',
