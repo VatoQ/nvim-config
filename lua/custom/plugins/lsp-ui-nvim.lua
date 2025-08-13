@@ -1,27 +1,40 @@
 return {
-  'jinzhongjia/LspUI.nvim',
-  config = function()
-    require('LspUI').setup {
-      hover = {
-        enable = true,
-        command_enable = true,
-        ui = {
-          title = 'Hover',
-          border = 'rounded',
-          winblend = 0,
-        },
-        keys = {
-          quit = 'q',
-        },
-      },
-    }
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, {
-      desc = 'LSP Hover',
-    })
-    --vim.keymap.set('n', 'K', function()
-    --  vim.lsp.buf.hover { border = 'rounded ' }
-    --end, {
-    --  desc = 'LSP Hover',
-    --})
-  end,
+  --'jinzhongjia/LspUI.nvim',
+  --config = function()
+  --  require('LspUI').setup {
+  --    hover = {
+  --      enable = true,
+  --      command_enable = true,
+  --      ui = {
+  --        title = 'Hover',
+  --        border = 'rounded',
+  --        winblend = 0,
+  --      },
+  --      render_markdown = true,
+  --      keys = {
+  --        quit = 'q',
+  --      },
+  --    },
+  --    rename = {
+  --      enable = true,
+  --      command_enable = true,
+  --      auto_save = false,
+  --      ui = {
+  --        title = 'Rename',
+  --        border = 'rounded',
+  --        winblend = 2,
+  --      },
+  --      keys = {
+  --        quit = '<C-c>',
+  --        exec = '<CR>',
+  --      },
+  --    },
+  --  }
+  --  vim.keymap.set('n', 'K', vim.lsp.buf.hover, {
+  --    desc = 'LSP Hover with Markdown rendering',
+  --  })
+  --  vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, {
+  --    desc = '[R]ename Symbol',
+  --  })
+  --end,
 }
