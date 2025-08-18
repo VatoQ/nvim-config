@@ -174,6 +174,9 @@ vim.opt.wrap = false
 
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4
+vim.o.expandtab = true
+
+vim.o.smoothscroll = true
 
 vim.fn.sign_define('DapBreakpoint', {
   text = '🔴',
@@ -247,6 +250,68 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+local tab_settings = function(filetypes, opts)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = filetypes,
+    callback = function()
+      vim.o.expandtab = opts.expandtab
+      vim.o.shiftwidth = opts.shiftwidth
+      vim.o.tabstop = opts.tabstop
+    end,
+  })
+end
+
+tab_settings({
+  'make',
+}, {
+  expandtab = false,
+  shiftwidth = 4,
+  tabstop = 4,
+})
+
+tab_settings({
+  'lua',
+  'yaml',
+}, {
+  expandtab = true,
+  shiftwidth = 2,
+  tabstop = 2,
+})
+
+tab_settings({
+  'c',
+  'h',
+  'cpp',
+  'hpp',
+}, {
+  expandtab = true,
+  shiftwidth = 4,
+  tabstop = 4,
+})
+
+--vim.api.nvim_create_autocmd('FileType', {
+--  desc = 'Disable expandtab for certain filetypes',
+--  pattern = {
+--    'make',
+--  },
+--  callback = function()
+--    vim.o.expandtab = false
+--  end,
+--})
+
+-- vim.api.nvim_create_autocmd('FileType', {
+--   desc = 'Make shiftwidth equal 2 in certain filetypes',
+--   pattern = {
+--     'lua',
+--     'yaml',
+--   },
+--   callback = function()
+--     vim.o.shiftwidth = 2
+--     vim.o.tabstop = 2
+--     vim.o.expandtab = true
+--   end,
+-- })
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -275,7 +340,7 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  -- 'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  --'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -371,21 +436,7 @@ require('lazy').setup({
   },
 })
 vim.o.background = 'dark'
-vim.cmd.colorscheme 'tokyonight'
+vim.cmd.colorscheme 'rose-pine'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-
---require('lspconfig').ruff.setup {
---  init_options = {
---    settings = {
---      format = {
---        preview = true,
---      },
---      python = {
---        'ruff_organize_imports',
---        'ruff_format',
---      },
---    },
---  },
---}
