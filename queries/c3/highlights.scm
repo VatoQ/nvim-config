@@ -1,5 +1,3 @@
-; Basic highlight queries for C3
-
 [
   "if"
   "else"
@@ -20,11 +18,11 @@
 ] @attribute
 
 (base_type_name) @type
+(type_ident) @type
 
 (func_declaration
     (func_header 
       (ident) @function))
-
 
 (import_declaration
   path: (path_ident) @property)
@@ -45,24 +43,15 @@
 
 (call_inline_attributes) @attribute.block
 
-
-
 ; Struct declarations
 (struct_declaration
   name: (type_ident) @type)
 
 
 (struct_member_declaration
+  ;(type) @type
   (identifier_list
     (ident) @variable.parameter))
-
-
-;; Struct members
-(struct_member_declaration
-  (type) @type
-  (ident) @field)
-
-
 
 (func_definition
   (func_header
@@ -72,7 +61,6 @@
   name: (type_ident) @type
   body: (enum_body
           (enum_constant) @constant))
-
 
 (declaration
   type: (type) @type
@@ -95,6 +83,17 @@
 
 (assignment_expr
   (ident_expr) @variable.parameter)
+
+(update_expr
+  argument: (ident_expr) @variable.parameter)
+
+(subscript_expr
+  argument: (ident_expr) @variable.parameter
+  index: (ident_expr) @variable.parameter)
+
+(field_expr
+  argument: (ident_expr) @variable.parameter
+  field: (access_ident) @field)
 
 (call_expr
   arguments: (call_arg_list
