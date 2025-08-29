@@ -10,8 +10,15 @@ return {
     'saghen/blink.cmp',
 
     'mtshiba/pylyzer',
+
+    'hrsh7th/vscode-langservers-extracted',
+
+    'bash-lsp/bash-language-server',
+
+    'pherrymason/c3-lsp',
   },
   config = function()
+    --local lspconfig = require 'lspconfig'
     local executable
     local args
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -151,7 +158,59 @@ return {
           },
         },
       },
-      clangd = {},
+      yamlls = {
+        settings = {
+          yaml = {
+            validate = true,
+            schemaStore = {
+              enable = false,
+              url = '',
+            },
+            schemas = {
+              ['https://json.schemastore.org/kustomization.json'] = 'kustomization.{yml,yaml}',
+              ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] = 'docker-compose*.{yml,yaml}',
+              ['https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json'] = 'argocd-application.yaml',
+            },
+          },
+        },
+      },
+      --c3lsp = {
+      --  filetypes = { 'c3' },
+      --},
+      clangd = {
+        filetypes = {
+          'c',
+          'cpp',
+          --'objc',
+          --'ojbcpp',
+          'cuda',
+          'proto',
+          'hpp',
+          'h',
+        },
+      },
+      bashls = {},
+      cssls = {
+        filetypes = {
+          'css',
+          'scss',
+          'less',
+          'rasi',
+        },
+        cmd = { 'vscode-css-language-server', '--stdio' },
+        settings = {
+          css = { validate = true },
+          less = { validate = true },
+          scss = { validate = true },
+        },
+      },
+      jsonls = {
+        cmd = { 'vscode-json-language-server', '--stdio' },
+        filetypes = { 'json', 'jsonc' },
+      },
+
+      html = {},
+
       basedpyright = {
         -- on_attach = on_attach,
         settings = {
@@ -190,22 +249,12 @@ return {
       },
     }
 
-    -- Ensure the servers and tools above are installed
-    --
-    -- To check the current status of installed tools and/or manually install
-    -- other tools, you can run
-    --    :Mason
-    --
-    -- You can press `g?` for help in this menu.
-    --
-    -- `mason` had to be setup earlier: to configure its options see the
-    -- `dependencies` table for `nvim-lspconfig` above.
-    --
-    -- You can add other tools here that you want Mason to install
-    -- for you, so that they are available from within Neovim.
-    local ensure_installed = vim.tbl_keys(servers or {})
+    local ensure_installed = vim.tbl_filter(function(name)
+      -- return name ~= 'c3ls'
+    end, vim.tbl_keys(servers or {}))
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'c3-lsp',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -215,14 +264,35 @@ return {
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for ts_ls)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          --server.on_attach = on_attach
           require('lspconfig')[server_name].setup(server)
         end,
       },
     }
+
+    --vim.lsp.config.c3_lsp = {
+    --  cmd = { '/usr/bin/c3lsp' },
+    --  filetypes = { 'c3', 'c3i' },
+    --  root_dir = vim.fs.dirname(vim.fs.find({ '.git' }, { upward = true })[1]),
+    --  settings = {},
+    --}
+
+    --vim.lsp.start {
+    --  name = 'c3_lsp',
+    --  config = vim.lsp.config.c3_lsp,
+    --}
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { 'c3', 'c3i' },
+      callback = function()
+        vim.lsp.start {
+          name = 'c3lsp',
+          cmd = { '/usr/bin/c3lsp' }, -- or use vim.fn.exepath("c3lsp") for auto-detection
+          filetypes = { 'c3', 'c3i' },
+          root_dir = vim.fs.dirname(vim.fs.find({ '.git' }, { upward = true })[1]),
+          settings = {},
+        }
+      end,
+    })
   end,
 }

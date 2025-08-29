@@ -16,6 +16,7 @@ return { -- You can easily change to a different colorscheme.
       sidebars = { 'qf', 'vista_kind', 'terminal', 'packer' },
     }
 
-    require('tokyonight').load()
+    --require('tokyonight').load()
+    --vim.cmd.olorscheme 'rose-pine'
   end,
 }

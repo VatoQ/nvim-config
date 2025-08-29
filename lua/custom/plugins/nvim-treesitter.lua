@@ -1,15 +1,14 @@
--- 606
--- 582
--- 024
 return { -- Highlight, edit, and navigate code
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
+  cmd = { 'TSPlaygroundToggle' },
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
     ensure_installed = {
       'bash',
       'c',
+      'c3',
       'diff',
       'html',
       'lua',
@@ -37,4 +36,32 @@ return { -- Highlight, edit, and navigate code
   --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
   --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
   --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+
+  config = function()
+    local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+    parser_config.c3 = {
+      install_info = {
+        url = 'https://github.com/c3lang/tree-sitter-c3',
+        files = { 'src/parser.c', 'src/scanner.c' },
+        branch = 'main',
+      },
+      filetype = 'c3',
+    }
+
+    local treesitter = require 'nvim-treesitter.configs'
+
+    treesitter.setup {
+      ensure_installed = { 'c3' },
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      },
+      playground = {
+        enable = true,
+        updatetime = 25,
+        persist_queries = false,
+      },
+    }
+  end,
 }
