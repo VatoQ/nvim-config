@@ -6,16 +6,24 @@
   "return"
   "break"
   "continue"
+  "const"
+  "struct"
+  "union"
+  "alias"
+  "enum"
+  "extern"
 ] @keyword
 
 [
-  "import"
-  "const"
-  "union"
-  "struct"
-  "enum"
   "fn"
 ] @attribute
+
+
+[
+ "import"
+ "module"
+] @keyword.import
+
 
 (base_type_name) @type
 (type_ident) @type
@@ -92,9 +100,34 @@
   index: (ident_expr) @variable.parameter)
 
 (field_expr
-  argument: (ident_expr) @variable.parameter
-  field: (access_ident) @field)
+  argument: (ident_expr) @variable.parameter)
+
+(access_ident) @field
 
 (call_expr
   arguments: (call_arg_list
                (call_arg) @variable.parameter))
+
+
+(module_declaration
+  path: (path_ident) @property)
+
+
+(attribute
+  name: (at_ident) @attribute)
+
+
+(escape_sequence) @string.special
+
+
+(return_stmt
+  (ident_expr
+    (ident) @variable.parameter))
+
+;(ident_expr
+;  (ident) @variable.parameter)
+
+
+; (unary_expr
+;   argument: (ident_expr
+;               (ident) @variable.parameter))
