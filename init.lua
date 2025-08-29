@@ -176,7 +176,7 @@ vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 vim.o.expandtab = true
 
-vim.o.smoothscroll = true
+-- vim.o.smoothscroll = true
 
 vim.fn.sign_define('DapBreakpoint', {
   text = '🔴',
@@ -230,6 +230,13 @@ vim.keymap.set({ 'n', 'v', 'i' }, '<C-s>', '<cmd>w<cr>', {
   desc = 'Save file',
 })
 
+vim.api.nvim_set_hl(0, '@attribute.name', { fg = '#FFD700', bold = true })
+
+vim.api.nvim_set_hl(0, '@attribute.block', { fg = '#AAAAAA' })
+--vim.api.nvim_set_hl(0, '@namespace', {
+--  fg = '#33AA33',
+--})
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -249,7 +256,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
-
+-- Function that sets shiftwidth for given filetypes
+-- @param filetypes table of strings, filetypes to configure
+-- @param opts {expandtab:bool, shiftwidth:int, tabstop:int}
+---@param filetypes string[]
+---@param opts table<string, (boolean|integer)>
 local tab_settings = function(filetypes, opts)
   vim.api.nvim_create_autocmd('FileType', {
     pattern = filetypes,
@@ -289,29 +300,6 @@ tab_settings({
   tabstop = 4,
 })
 
---vim.api.nvim_create_autocmd('FileType', {
---  desc = 'Disable expandtab for certain filetypes',
---  pattern = {
---    'make',
---  },
---  callback = function()
---    vim.o.expandtab = false
---  end,
---})
-
--- vim.api.nvim_create_autocmd('FileType', {
---   desc = 'Make shiftwidth equal 2 in certain filetypes',
---   pattern = {
---     'lua',
---     'yaml',
---   },
---   callback = function()
---     vim.o.shiftwidth = 2
---     vim.o.tabstop = 2
---     vim.o.expandtab = true
---   end,
--- })
-
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -323,6 +311,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 
+-- require('luasnip.loaders.from_lua').load { paths = '~/.config/nvim/snippets' }
 ---@type vim.Option
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
@@ -436,7 +425,34 @@ require('lazy').setup({
   },
 })
 vim.o.background = 'dark'
-vim.cmd.colorscheme 'rose-pine'
+--require('catppuccin').load 'macchiato'
 
+-- package.loaded['rose-pine.palette'] = nil
+-- require('rose-pine').colorscheme()
+
+require('vscode').load 'dark'
+
+local luasnip = require 'luasnip'
+
+vim.keymap.set({ 'i', 's' }, '<Tab>', function()
+  if luasnip.jumpable(1) then
+    return '<Plug>luasnip-jump-next'
+  end
+  return '<Tab>'
+end, {
+  expr = true,
+  silent = true,
+})
+
+vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
+  if luasnip.jumpable(-1) then
+    return '<Plug>luasnip-jump-prev'
+  end
+  return '<S-Tab>'
+end, {
+  expr = true,
+  silent = true,
+})
+require('luasnip.loaders.from_lua').load { paths = { '~/.config/nvim/snippets' } }
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
