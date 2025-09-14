@@ -115,6 +115,13 @@ return {
 
     image = {
       enabled = true,
+      formats = { 'latex', 'markdown' },
+      convert = {
+        --density = 192,
+        trim = true,
+        backend = 'dvisvgm',
+        identify = false,
+      },
     },
     terminal = {
       win = {
@@ -152,7 +159,7 @@ return {
               self.esc_timer:stop()
               vim.cmd 'stopinsert'
             else
-              --self.esc_timer:start(0, 0, function() end)
+              self.esc_timer:start(200, 0, function() end)
               return '<esc>'
             end
           end,
