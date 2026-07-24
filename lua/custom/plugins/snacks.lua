@@ -114,8 +114,9 @@ return {
     },
 
     image = {
-      enabled = true,
-      formats = { 'latex', 'markdown' },
+      enabled = false,
+      math = { enabled = false },
+      formats = { 'latex' },
       convert = {
         --density = 192,
         trim = true,
@@ -125,10 +126,10 @@ return {
     },
     terminal = {
       win = {
-        position = 'float',
+        position = 'bottom',
         border = 'rounded',
-        height = 0.55,
-        width = 0.75,
+        height = 0.35,
+        -- width = 0.75,
         -- zindex = 50,
         row = -1,
         -- col = -1,
@@ -610,7 +611,7 @@ return {
       desc = 'Dismiss All Notifications',
     },
     {
-      '<c-t>',
+      '<leader>t',
       function()
         Snacks.terminal()
       end,

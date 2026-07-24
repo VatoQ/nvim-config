@@ -142,7 +142,7 @@ return {
     local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     local servers = {
-      -- vimtex = {},
+      cobol_ls = {},
       texlab = {
         settings = {
           forwardSearch = {
@@ -167,20 +167,16 @@ return {
           },
         },
       },
-      --c3lsp = {
-      --  filetypes = { 'c3' },
-      --},
       clangd = {
         filetypes = {
           'c',
           'cpp',
-          --'objc',
-          --'ojbcpp',
           'cuda',
           'proto',
           'hpp',
           'h',
         },
+        cmd = { 'clangd', '--compile-command', 'clang -std=c17' },
       },
       bashls = {},
       cssls = {
@@ -262,18 +258,6 @@ return {
         end,
       },
     }
-
-    --vim.lsp.config.c3_lsp = {
-    --  cmd = { '/usr/bin/c3lsp' },
-    --  filetypes = { 'c3', 'c3i' },
-    --  root_dir = vim.fs.dirname(vim.fs.find({ '.git' }, { upward = true })[1]),
-    --  settings = {},
-    --}
-
-    --vim.lsp.start {
-    --  name = 'c3_lsp',
-    --  config = vim.lsp.config.c3_lsp,
-    --}
 
     vim.api.nvim_create_autocmd('FileType', {
       pattern = { 'c3', 'c3i' },
