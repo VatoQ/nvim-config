@@ -41,6 +41,6 @@ return {
       },
     }
 
-    require('catppuccin').load()
+    --vim.cmd.colorscheme 'mocha'
   end,
 }

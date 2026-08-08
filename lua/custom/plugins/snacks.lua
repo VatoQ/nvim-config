@@ -114,14 +114,22 @@ return {
     },
 
     image = {
-      enabled = true,
+      enabled = false,
+      math = { enabled = false },
+      formats = { 'latex' },
+      convert = {
+        --density = 192,
+        trim = true,
+        backend = 'dvisvgm',
+        identify = false,
+      },
     },
     terminal = {
       win = {
-        position = 'float',
+        position = 'bottom',
         border = 'rounded',
-        height = 0.55,
-        width = 0.75,
+        height = 0.35,
+        -- width = 0.75,
         -- zindex = 50,
         row = -1,
         -- col = -1,
@@ -152,7 +160,7 @@ return {
               self.esc_timer:stop()
               vim.cmd 'stopinsert'
             else
-              --self.esc_timer:start(0, 0, function() end)
+              self.esc_timer:start(200, 0, function() end)
               return '<esc>'
             end
           end,
@@ -603,7 +611,7 @@ return {
       desc = 'Dismiss All Notifications',
     },
     {
-      '<c-t>',
+      '<leader>t',
       function()
         Snacks.terminal()
       end,
