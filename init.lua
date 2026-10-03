@@ -339,6 +339,14 @@ vim.keymap.set({ 'n' }, '<C-Down>', '<cmd>:resize -2<CR>')
 vim.keymap.set({ 'n' }, '<C-Left>', '<cmd>:vertical resize -2<CR>')
 vim.keymap.set({ 'n' }, '<C-Right>', '<cmd>:vertical resize +2<CR>')
 
+-- Start elixir parser
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
+
 require('luasnip.loaders.from_lua').load { paths = { '~/.config/nvim/snippets' } }
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

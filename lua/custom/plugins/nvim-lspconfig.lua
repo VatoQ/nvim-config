@@ -18,7 +18,6 @@ return {
     'pherrymason/c3-lsp',
   },
   config = function()
-    --local lspconfig = require 'lspconfig'
     local executable
     local args
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -110,39 +109,9 @@ return {
         end,
       },
     }
-    local on_attach = function(client, bufnr)
-      vim.keymap.set('n', 'K', function()
-        vim.notify('Entering K', vim.log.levels.INFO)
-        vim.lsp.buf.hover()
-      end, {
-        buffer = bufnr,
-        desc = 'LSP Hover with Glow',
-      })
-      vim.lsp.handlers['textDocument/hover'] = function(_, result, ctx, config)
-        if not (result and result.contents) then
-          return
-        end
-
-        local markdown = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
-        markdown = vim.lsp.util.trim_empty_lines(markdown)
-
-        if vim.tbl_isempty(markdown) then
-          return
-        end
-
-        local tmpfile = vim.fn.tempname() .. '.md'
-        vim.fn.writefile(markdown, tmpfile)
-
-        vim.fn.jobstart({ 'glow', tmpfile }, {
-          detach = true,
-        })
-      end
-    end
-
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
+    local capabilities = vim.tbl_deep_extend('force', vim.lsp.protocol.make_client_capabilities(), require('blink.cmp').get_lsp_capabilities())
 
     local servers = {
-      cobol_ls = {},
       texlab = {
         settings = {
           forwardSearch = {
@@ -199,9 +168,9 @@ return {
       },
 
       html = {},
+      elixir_ls = {},
 
       basedpyright = {
-        -- on_attach = on_attach,
         settings = {
           python = {
             analysis = {
@@ -238,6 +207,17 @@ return {
       },
     }
 
+    vim.lsp.config('cobol_ls', {
+      settings = {
+        ['cobol-lsp'] = {
+          ['analysis-mode'] = 'ADVANCED',
+          formatting = 'None',
+        },
+      },
+    })
+
+    vim.lsp.enable 'cobol_ls'
+
     local ensure_installed = vim.tbl_filter(function(name)
       -- return name ~= 'c3ls'
     end, vim.tbl_keys(servers or {}))
@@ -254,7 +234,8 @@ return {
         function(server_name)
           local server = servers[server_name] or {}
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
+          vim.lsp.config(server_name, server)
+          vim.lsp.enable(server_name)
         end,
       },
     }
